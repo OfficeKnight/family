@@ -1,5 +1,9 @@
 # Stand
 
+## 11.11.2026: Veröffentlichung
+
+Rostislaw hat entschieden, die Seite öffentlich unter `family.kazas.dev` live zu stellen. Der Workflow für GitHub Pages liegt im Repository. Offen sind die Schritte, die nur er selbst erledigen kann: Pages in den Einstellungen einschalten, die Domain eintragen und den CNAME-Eintrag bei INWX anlegen.
+
 ## 11.11.2026: Import nach den Korrekturen von Chat 1
 
 Datenstand des Such-Repositories: Commit `0e46d52`. Chat 1 hat 59 Beziehungen nachgetragen (R-0124 bis R-0182), P-0055 in P-0061 zusammengeführt und doppelte Zeilen entfernt.

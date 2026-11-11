@@ -81,8 +81,10 @@ Der Baum zeigt nur, was als Beziehung im Register steht. Der Import schreibt all
 
 ## Veröffentlichung
 
-- Jetzt bauen, aber erst mit Login ins Netz stellen. Bis dahin gibt es die private Vorschau im Chat und `site/index.html` zum lokalen Öffnen.
-- Später: Webspace (Hetzner oder ähnlich), Login, Admin-Bereich für Zugänge, Fotos und weitere Angaben.
+- Entscheidung vom 11.11.2026: Die Seite geht öffentlich und ohne Login live, unter `family.kazas.dev` auf GitHub Pages. Rostislaw sieht in den Daten nichts Geheimes. Die frühere Entscheidung (erst mit Login ins Netz) ist damit aufgehoben.
+- Veröffentlicht wird nur der Ordner `site/`, automatisch bei jedem Push auf `main` (`.github/workflows/pages.yml`).
+- Die Seite trägt weiter `noindex`, und `site/robots.txt` verbietet das Indexieren. Sie ist über den Link erreichbar, soll aber nicht in Suchmaschinen erscheinen.
+- Später: eigener Webspace (Hetzner oder ähnlich) mit Login und Admin-Bereich für Zugänge, Fotos und weitere Angaben.
 
 ## Umfang von Version 1
 

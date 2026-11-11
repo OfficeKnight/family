@@ -2,7 +2,7 @@
 
 Klickbarer Familienstammbaum. Die Forschung selbst liegt im privaten Repository `OfficeKnight/stammbaum`, diese Seite zeigt deren Ergebnis. Alle Entscheidungen stehen in [`SPEC.md`](SPEC.md), der aktuelle Stand in [`STATUS.md`](STATUS.md).
 
-Das Repository ist privat und soll es bleiben. Es enthält Angaben zu lebenden Verwandten und Scans von Familiendokumenten.
+Die Seite ist seit dem 11.11.2026 öffentlich unter `family.kazas.dev` erreichbar (Entscheidung von Rostislaw, siehe `SPEC.md`). Sie enthält Angaben zu lebenden Verwandten und Scans von Familiendokumenten.
 
 ## Ansehen
 
@@ -33,8 +33,8 @@ python3 tools/check_site.py
 
 Danach `PROBELY.md` ansehen und committen. Neue Personen ohne Zeile in `podpisi.csv` stehen dort im letzten Abschnitt.
 
-## Später auf dem Webspace
+## Veröffentlichung
 
-- Nur `site/` hochladen.
-- Zugriff nur über HTTPS und hinter einem Login.
-- Die Seite trägt `noindex`, `site/robots.txt` verbietet das Indexieren.
+Jeder Push auf `main`, der `site/` ändert, veröffentlicht die Seite über GitHub Pages (`.github/workflows/pages.yml`). Die eigene Domain steht in den Einstellungen des Repositories unter Pages, im DNS zeigt ein CNAME-Eintrag `family` auf `officeknight.github.io`.
+
+Die Seite trägt `noindex`, `site/robots.txt` verbietet das Indexieren.
