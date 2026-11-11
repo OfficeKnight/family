@@ -343,6 +343,10 @@ def main() -> int:
             return f"ум. {dy.group(1)}"
         return ""
 
+    def born(pid: str) -> int:
+        m = YEAR_RE.search(persons[pid]["birth_estimate"])
+        return int(m.group(1)) if m else 9999
+
     people = {}
     for pid in sorted(included):
         p, n = persons[pid], names[pid]
@@ -381,9 +385,9 @@ def main() -> int:
         if extra:
             rec["xp"] = extra
         if children.get(pid):
-            rec["ch"] = dict(sorted(children[pid].items(), key=lambda kv: (persons[kv[0]]["birth_estimate"][:4] or "9999", kv[0])))
+            rec["ch"] = dict(sorted(children[pid].items(), key=lambda kv: (born(kv[0]), kv[0])))
         if siblings.get(pid):
-            rec["sb"] = dict(sorted(siblings[pid].items(), key=lambda kv: (persons[kv[0]]["birth_estimate"][:4] or "9999", kv[0])))
+            rec["sb"] = dict(sorted(siblings[pid].items(), key=lambda kv: (born(kv[0]), kv[0])))
         if spouses.get(pid):
             rec["sp"] = spouses[pid]
         if claims_of.get(pid):
@@ -420,7 +424,7 @@ def main() -> int:
         both = [c for c in children.get(a, {}) if c in children.get(b, {})]
         only_a = [c for c in children.get(a, {}) if c not in both and not any(names[q]["pol"] == names[b]["pol"] for q in parents_all[c])]
         only_b = [c for c in children.get(b, {}) if c not in both and not any(names[q]["pol"] == names[a]["pol"] for q in parents_all[c])]
-        order = lambda c: (persons[c]["birth_estimate"][:4] or "9999", c)
+        order = lambda c: (born(c), c)
         rec["ch"] = sorted(both, key=order)
         if only_a or only_b:
             rec["ch1"] = sorted(only_a + only_b, key=order)
@@ -476,7 +480,7 @@ def main() -> int:
 
     # ---- пробелы в реестрах ----
     related = defaultdict(set)
-    for r in live:
+    for r in rels:  # опровергнутая связь тоже запись в реестре, пробелом она не считается
         related[r["person_a_id"]].add(r["person_b_id"])
         related[r["person_b_id"]].add(r["person_a_id"])
     for x, others in siblings.items():
@@ -501,7 +505,7 @@ def main() -> int:
                 gaps["mother"].append(f"{tagname(child)}: мать {tagname(m)}, отец не записан. У матери в реестре есть муж: "
                                       f"{'; '.join(tagname(s) for s in cand)}. Если это отец, нужна связь parent-child.")
     linked = set()
-    for r in live:
+    for r in rels:
         linked.update((r["person_a_id"], r["person_b_id"]))
     for pid in sorted(included - linked - {ROOT_PERSON}):
         gaps["lonely"].append(f"{tagname(pid)}: нет ни одной связи в relationship-register.csv; человека можно найти только поиском.")

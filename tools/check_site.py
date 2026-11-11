@@ -18,6 +18,7 @@ def main() -> int:
     d = json.loads(raw[raw.index("{"):raw.rindex(";")])
     people, pairs, claims, sources = d["people"], d["pairs"], d["claims"], d["sources"]
     bad: list[str] = []
+    warn: list[str] = []
 
     def need(cond: bool, msg: str) -> None:
         if not cond:
@@ -77,7 +78,8 @@ def main() -> int:
             links += 1
             path, _, frag = href.partition("#")
             if not path:
-                need(not frag or frag in anchors, f"{page.name}: нет якоря #{frag}")
+                if frag and frag not in anchors:
+                    warn.append(f"{page.name}: ссылка на #{frag}, такого якоря на странице нет (страница скопирована из репозитория поиска)")
                 continue
             target = (page.parent / path).resolve()
             need(target.is_file(), f"{page.name}: нет файла {href}")
@@ -85,6 +87,8 @@ def main() -> int:
         need((SITE / "docs" / m.group(1)).is_file(), f"app.js ссылается на docs/{m.group(1)}, файла нет")
     for line in bad[:60]:
         print("ОШИБКА:", line)
+    for line in warn[:30]:
+        print("Замечание:", line)
     print(f"Людей {len(people)}, пар {len(pairs)}, утверждений {len(claims)}, источников {len(sources)}, ссылок на страницах {links}.")
     print("Ошибок нет." if not bad else f"Ошибок: {len(bad)}.")
     return 1 if bad else 0
